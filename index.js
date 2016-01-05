@@ -25,9 +25,11 @@ Babelify.prototype._transform = function (buf, enc, callback) {
 
 Babelify.prototype._flush = function (callback) {
   try {
+    var time = Date.now();
     var result = babel.transform(this._data, this._opts);
     this.emit("babelify", result, this._filename);
     var code = result.code;
+    console.error(this._filename, Date.now() - time + ' ms');
     this.push(code);
   } catch(err) {
     this.emit("error", err);
